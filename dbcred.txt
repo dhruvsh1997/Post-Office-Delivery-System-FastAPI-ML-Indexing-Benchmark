@@ -1,0 +1,21 @@
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'delivery_db',
+#         'USER': 'postgres',
+#         'PASSWORD': '9899',
+#         'HOST': 'localhost',#'db',
+#         'PORT': '5432',
+#     }
+# }
+
+\l: List all databases.
+\c [database_name]: Connect to the specified database.
+CREATE DATABASE [database_name];: Create a new database.
+DROP DATABASE [database_name];: Delete a database.
+Table management
+
+\dt: List all tables in the current database.
+\d [table_name]: Describe the structure of the specified table.
+CREATE TABLE [table_name] ([column1] [data_type], [column2] [data_type], ...);: Create a new table.
+DROP TABLE [table_name];: Delete a table.
