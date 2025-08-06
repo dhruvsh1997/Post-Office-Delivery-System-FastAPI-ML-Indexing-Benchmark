@@ -14,17 +14,17 @@ encoders = joblib.load("ml/encoders.pkl")
 def predict_delivery_time(request: PredictionRequest):
     data = request.dict()
     features = data.copy()
-
+    breakpoint()
     # Encode categorical
     for col in ["Traffic_Level", "weather_description", "type_of_package", "Type_of_vehicle"]:
-        features[col] = encoders[col].transform([features[col]])[0]
+        features[col.lower()] = int(encoders[col].transform([features[col.lower()]])[0])
 
     input_data = [[
-        features["Traffic_Level"], features["Delivery_person_Age"], features["Delivery_person_Ratings"],
-        features["PO_latitude"], features["PO_longitude"], features["Delivery_location_latitude"],
-        features["Delivery_location_longitude"], features["temperature"], features["humidity"],
-        features["precipitation"], features["Distance (km)"], features["weather_description"],
-        features["type_of_package"], features["Type_of_vehicle"]
+        features["traffic_level"], features["delivery_person_age"], features["delivery_person_ratings"],
+        features["po_latitude"], features["po_longitude"], features["delivery_location_latitude"],
+        features["delivery_location_longitude"], features["temperature"], features["humidity"],
+        features["precipitation"], features["distance"], features["weather_description"],
+        features["type_of_package"], features["type_of_vehicle"]
     ]]
 
     pred = model.predict(input_data)[0]

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from db import Base, engine
 from routes import prediction, index_tests
 from utils.data_spammer import spam_deliveries
-
+#https://www.kaggle.com/datasets/willianoliveiragibin/food-delivery-time?resource=download
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
