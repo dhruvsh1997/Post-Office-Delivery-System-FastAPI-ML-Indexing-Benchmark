@@ -4,6 +4,7 @@ import joblib
 from models import PredictionLog
 from db import SessionLocal
 import json
+import numpy as np
 
 router = APIRouter()
 
@@ -14,7 +15,7 @@ encoders = joblib.load("ml/encoders.pkl")
 def predict_delivery_time(request: PredictionRequest):
     data = request.dict()
     features = data.copy()
-    breakpoint()
+    # breakpoint()
     # Encode categorical
     for col in ["Traffic_Level", "weather_description", "type_of_package", "Type_of_vehicle"]:
         features[col.lower()] = int(encoders[col].transform([features[col.lower()]])[0])
@@ -27,13 +28,18 @@ def predict_delivery_time(request: PredictionRequest):
         features["type_of_package"], features["type_of_vehicle"]
     ]]
 
-    pred = model.predict(input_data)[0]
+    # Ensure prediction is a native Python float
+    pred = float(model.predict(input_data)[0])
 
     # Save prediction log
     db = SessionLocal()
-    log = PredictionLog(features_json=json.dumps(data), predicted_time=pred)
+    log = PredictionLog(
+        features_json=json.dumps(data),
+        predicted_time=pred
+    )
     db.add(log)
     db.commit()
     db.close()
+
 
     return {"predicted_delivery_time": round(pred, 2)}

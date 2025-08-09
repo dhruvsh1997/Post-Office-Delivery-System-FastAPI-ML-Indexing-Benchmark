@@ -2,6 +2,7 @@ from models import Delivery, DeliveryPerson, Package, PostOffice
 from db import SessionLocal
 from faker import Faker
 import random
+import numpy as np
 
 def spam_deliveries(n=1000):
     db = SessionLocal()
@@ -16,7 +17,7 @@ def spam_deliveries(n=1000):
             package_id=random.choice(packages).id,
             post_office_id=random.choice(offices).id,
             traffic_level=random.choice(["Low", "Medium", "High"]),
-            weather_description=random.choice(["overcast clouds", "clear sky", "mist"]),
+            weather_description=random.choice(['mist', 'clear sky', 'overcast clouds', 'broken clouds', 'haze','scattered clouds', 'fog', 'smoke', 'few clouds','light rain', 'moderate rain']),
             temperature=random.uniform(20, 40),
             humidity=random.uniform(30, 90),
             precipitation=random.uniform(0, 10),
