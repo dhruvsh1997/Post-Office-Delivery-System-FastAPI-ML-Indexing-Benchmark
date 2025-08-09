@@ -30,7 +30,7 @@ def predict_delivery_time(request: PredictionRequest):
 
     # Ensure prediction is a native Python float
     pred = float(model.predict(input_data)[0])
-
+    breakpoint()
     # Save prediction log
     db = SessionLocal()
     log = PredictionLog(
