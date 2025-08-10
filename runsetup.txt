@@ -13,3 +13,6 @@ uvicorn main:app --reload
   "count": 3376,
   "time_taken_sec": 0.0143
 }
+
+SELECT * FROM public.deliveries WHERE traffic_level='Low'
+ORDER BY id ASC 
