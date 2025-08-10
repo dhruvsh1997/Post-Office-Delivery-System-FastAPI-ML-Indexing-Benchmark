@@ -1,0 +1,27 @@
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environments
+.env
+.venv
+env/
+envDelivery/
+env_*/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Git metadata
+.git/
+.gitignore
+
+# Ignore temp files and logs
+*.log
+logs/
+tmp/
+temp/
+
+# Ignore compiled models (not needed in DVC dataset storage)
+#ml/
