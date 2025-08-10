@@ -1,4 +1,5 @@
-from models import Delivery, DeliveryPerson, Package, PostOffice
+from models import Delivery, DeliveryPerson, Package, PostOffice, Customer, Vehicle
+from sqlalchemy.orm import Session
 from db import SessionLocal
 from faker import Faker
 import random
@@ -26,4 +27,60 @@ def spam_deliveries(n=1000):
         )
         db.add(delivery)
     db.commit()
+    db.close()
+
+# utils/data_spammer.py
+def seed_initial_data():
+    db = SessionLocal()
+    fake = Faker()
+
+    # Create vehicles
+    vehicle_types = ["Bike", "Scooter", "Car", "Van"]
+    vehicles = []
+    for vt in vehicle_types:
+        v = Vehicle(type=vt)
+        db.add(v)
+        vehicles.append(v)
+    db.commit()
+
+    # Create post offices
+    offices = []
+    for _ in range(5):
+        office = PostOffice(
+            name=fake.company(),
+            latitude=random.uniform(-90, 90),
+            longitude=random.uniform(-180, 180)
+        )
+        db.add(office)
+        offices.append(office)
+    db.commit()
+
+    # Create delivery persons
+    for _ in range(10):
+        dp = DeliveryPerson(
+            name=fake.name(),
+            age=random.randint(20, 50),
+            rating=round(random.uniform(3, 5), 1),
+            vehicle_id=random.choice(vehicles).id   
+        )
+        db.add(dp)
+    db.commit()
+
+    # Create customers and packages
+    for _ in range(20):
+        customer = Customer(
+            name=fake.name(),
+            latitude=random.uniform(-90, 90),
+            longitude=random.uniform(-180, 180)
+        )
+        db.add(customer)
+        db.commit()
+        pkg = Package(
+            type=random.choice(["Documents", "Electronics", "Clothing"]),
+            weight=round(random.uniform(0.5, 10), 2),
+            customer_id=customer.id
+        )
+        db.add(pkg)
+    db.commit()
+
     db.close()
