@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.joblib
+
+# Virtual environment
+.env
+.venv
+env/
+envDelivery/
+env_*/
+*.env
+
+# VS Code / IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# DVC cache (Git should not track actual dataset)
+dataset/
+*.csv
+*.xlsx
+*.zip
+*.tar
+*.gz
+
+# Logs and temp
+*.log
+logs/
+tmp/
+temp/
+
+# ML models (tracked by DVC separately)
+ml/*.pkl
+ml/*.joblib
+
+# DVC specific
+.cache/
+.dvc/cache/
