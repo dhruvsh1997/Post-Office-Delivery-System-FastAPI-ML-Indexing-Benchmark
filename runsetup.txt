@@ -1,0 +1,4 @@
+CREATE INDEX idx_traffic_level ON public.deliveries(traffic_level);
+
+uvicorn main:app --reload
+
