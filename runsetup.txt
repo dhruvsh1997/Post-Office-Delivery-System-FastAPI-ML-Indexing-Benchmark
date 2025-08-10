@@ -2,3 +2,14 @@ CREATE INDEX idx_traffic_level ON public.deliveries(traffic_level);
 
 uvicorn main:app --reload
 
+#No Index Output
+{
+  "count": 3376,
+  "time_taken_sec": 0.0305
+}
+
+#With Index Output
+{
+  "count": 3376,
+  "time_taken_sec": 0.0143
+}
