@@ -5,7 +5,7 @@ from faker import Faker
 import random
 import numpy as np
 
-def spam_deliveries(n=1000):
+def spam_deliveries(n=100):
     db = SessionLocal()
     fake = Faker()
     persons = db.query(DeliveryPerson).all()

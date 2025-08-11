@@ -15,5 +15,5 @@ app.include_router(index_tests.router)
 def seed_and_spam():
     seed_initial_data()
     # breakpoint()
-    spam_deliveries(10000)
+    spam_deliveries(1000)
     return {"message": "Database seeded and filled with fake deliveries"}
