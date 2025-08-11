@@ -1,3 +1,4 @@
+#Execution Key Steps 
 CREATE INDEX idx_traffic_level ON public.deliveries(traffic_level);
 
 uvicorn main:app --reload
@@ -16,3 +17,4 @@ uvicorn main:app --reload
 
 SELECT * FROM public.deliveries WHERE traffic_level='Low'
 ORDER BY id ASC 
+

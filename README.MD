@@ -22,7 +22,7 @@ main_app/
 ├── PostDeliveryIndex/
 │   ├── main.py              # FastAPI entry point
 │   ├── models.py            # SQLAlchemy ORM models
-│   ├── db.py
+│   ├── db.py                # Database Connection with postgresql
 │   ├── schemas.py           # Pydantic schemas for API validation
 │   ├── ml/
 │   │   ├── train_model.py   # Random Forest model training
@@ -30,9 +30,11 @@ main_app/
 │   │   ├── delivery_time_model.pkl  # Saved ML model
 │   ├── utils/
 │   │   ├── data_spammer.py  # Data population script
-│   └── routes
+│   ├── routes
 │   │   ├── index_tests.py
 │   │   ├── prediction.py
+│   └── dataset
+│       └── Delivery_Time_new.csv
 ├── requirements.txt          # Python dependencies
 └── README.md                # This file
 ```
