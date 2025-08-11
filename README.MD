@@ -22,7 +22,7 @@ main_app/
 ├── PostDeliveryIndex/
 │   ├── main.py              # FastAPI entry point
 │   ├── models.py            # SQLAlchemy ORM models
-db.py
+│   ├── db.py
 │   ├── schemas.py           # Pydantic schemas for API validation
 │   ├── ml/
 │   │   ├── train_model.py   # Random Forest model training
