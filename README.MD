@@ -18,16 +18,21 @@ This project is a **Post Office Delivery Backend System** built with **FastAPI**
 ## 🗂️ Project Structure
 
 ```
-post_delivery_app/
-├── app/
+main_app/
+├── PostDeliveryIndex/
 │   ├── main.py              # FastAPI entry point
 │   ├── models.py            # SQLAlchemy ORM models
+db.py
 │   ├── schemas.py           # Pydantic schemas for API validation
 │   ├── ml/
 │   │   ├── train_model.py   # Random Forest model training
+│   │   ├── encoders.pkl #saved ML model's encoder's pkl file
 │   │   ├── delivery_time_model.pkl  # Saved ML model
-│   └── utils/
-│       ├── data_spammer.py  # Data population script
+│   ├── utils/
+│   │   ├── data_spammer.py  # Data population script
+│   └── routes
+│   │   ├── index_tests.py
+│   │   ├── prediction.py
 ├── requirements.txt          # Python dependencies
 └── README.md                # This file
 ```
