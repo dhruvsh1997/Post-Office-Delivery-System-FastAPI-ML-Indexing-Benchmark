@@ -1,45 +1,41 @@
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.pkl
-*.joblib
+*$py.class
 
-# Virtual environment
-.env
-.venv
+# Virtualenvs
+venv/
 env/
-envDelivery/
-env_*/
-*.env
+.env
+.venv/
 
-# VS Code / IDE
+# IDEs / editors
 .vscode/
 .idea/
+*.sublime-*
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# DVC cache (Git should not track actual dataset)
-dataset/
-*.csv
-*.xlsx
-*.zip
-*.tar
-*.gz
+# DVC cache (do not commit)
+.dvc/cache/
 
-# Logs and temp
+# Large data / model artifacts - tracked with DVC instead of Git
+dataset/*.csv
+ml/*.pkl
+
+# Logs
 *.log
 logs/
-tmp/
-temp/
 
-# ML models (tracked by DVC separately)
-ml/*.pkl
-ml/*.joblib
+# Test artifacts
+.pytest_cache/
 
-# DVC specific
-.cache/
-.dvc/cache/
+# Secrets / keys (never commit)
+*.pem
+id_rsa*
+*.key
+.env.*
+
+# Keep .dvc files and config in Git, but ignore DVC's cache (above)

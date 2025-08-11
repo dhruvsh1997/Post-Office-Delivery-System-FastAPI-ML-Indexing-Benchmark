@@ -1,27 +1,13 @@
-# Ignore Python cache
-__pycache__/
-*.py[cod]
-
-# Ignore virtual environments
-.env
-.venv
+# make DVC traversal faster — ignore envs, caches and editor cruft
+venv/
 env/
-envDelivery/
-env_*/
-
-# Ignore OS-specific files
-.DS_Store
-Thumbs.db
-
-# Ignore Git metadata
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+.idea/
 .git/
 .gitignore
-
-# Ignore temp files and logs
 *.log
-logs/
 tmp/
-temp/
-
-# Ignore compiled models (not needed in DVC dataset storage)
-#ml/
+.notebooks/
