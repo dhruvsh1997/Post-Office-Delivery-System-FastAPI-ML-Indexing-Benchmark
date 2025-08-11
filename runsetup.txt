@@ -1,4 +1,5 @@
-#Execution Key Steps 
+##### Execution Key Steps 
+
 CREATE INDEX idx_traffic_level ON public.deliveries(traffic_level);
 
 uvicorn main:app --reload
@@ -17,4 +18,99 @@ uvicorn main:app --reload
 
 SELECT * FROM public.deliveries WHERE traffic_level='Low'
 ORDER BY id ASC 
+
+
+
+###### DVC Configuration
+
+# install dvc (locally)
+pip install "dvc[s3]"
+
+# initialize dvc in your repo
+dvc init
+git add .dvc .dvcignore
+git commit -m "dvc init"
+
+# add an S3 remote (replace bucket/path)
+dvc remote add -d s3remote s3://your-bucket/path
+# store credentials either via env vars or AWS CLI on the machine
+
+# track dataset and model files with DVC (creates small .dvc pointer files)
+dvc add dataset/Delivery_Time_new.csv
+dvc add ml/delivery_time_predictor.pkl
+dvc add ml/encoders.pkl
+
+git add dataset/Delivery_Time_new.csv.dvc ml/delivery_time_predictor.pkl.dvc ml/encoders.pkl.dvc .dvc/config
+git commit -m "Add dataset + model files to DVC"
+
+# push to s3 (requires AWS credentials)
+dvc push -r s3remote
+
+
+
+##### EC2 setup steps
+
+# update & basic tools
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3 python3-venv python3-pip git nginx
+
+# (optional) install PostgreSQL locally OR use RDS
+sudo apt install -y postgresql postgresql-contrib
+
+# create app user/folder (example)
+sudo adduser --disabled-password --gecos "" deploy
+sudo mkdir -p /home/deploy/app
+sudo chown deploy:deploy /home/deploy/app
+
+# clone repo as deploy user (or setup git deploy key)
+sudo -u deploy -i bash <<'CMD'
+cd ~
+git clone git@github.com:<your-org>/<your-repo>.git app
+cd app
+python3 -m venv venv
+. venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+pip install "dvc[s3]"
+# reconfigure DATABASE_URL etc via systemd Environment or a .env file
+CMD
+
+# example creating DB & user locally (adjust credentials)
+sudo -u postgres psql -c "CREATE USER myappuser WITH PASSWORD 'strongpassword';"
+sudo -u postgres psql -c "CREATE DATABASE delivery_db OWNER myappuser;"
+
+
+##### systemd service file (example)
+
+Create /etc/systemd/system/postdelivery.service (adjust paths and user):
+[Unit]
+Description=PostDelivery FastAPI (gunicorn + uvicorn workers)
+After=network.target
+
+[Service]
+User=deploy
+Group=deploy
+WorkingDirectory=/home/deploy/app
+Environment="DATABASE_URL=postgresql://myappuser:strongpassword@localhost/delivery_db"
+# Use gunicorn with uvicorn worker (good production middle-ground)
+ExecStart=/home/deploy/app/venv/bin/gunicorn -k uvicorn.workers.UvicornWorker \
+    --workers 1 \
+    --bind 0.0.0.0:8000 main:app
+Restart=always
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+
+If your app entrypoint is main.py at repo root, main:app is correct.
+If the FastAPI app is at main_app/PostDeliveryIndex/main.py, set ExecStart to ... gunicorn -k uvicorn.workers.UvicornWorker --bind ... main_app.PostDeliveryIndex.main:app.
+
+
+After creating the service:
+sudo systemctl daemon-reload
+sudo systemctl enable postdelivery.service
+sudo systemctl start postdelivery.service
+sudo journalctl -u postdelivery.service -f
+
 
