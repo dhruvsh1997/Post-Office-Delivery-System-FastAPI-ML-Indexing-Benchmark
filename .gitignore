@@ -17,6 +17,7 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+*.db
 
 # DVC cache (do not commit)
 .dvc/cache/
