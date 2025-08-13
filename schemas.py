@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+#Database model Validation Schemas
 class DeliveryCreate(BaseModel):
     delivery_person_id: int
     package_id: int
