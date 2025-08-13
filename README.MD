@@ -36,6 +36,9 @@ main_app/
 │   └── dataset
 │       └── Delivery_Time_new.csv
 ├── requirements.txt          # Python dependencies
+├── runsetup.txt              # Execution Steps
+├── .gitignore
+├── .dvcignore
 └── README.md                # This file
 ```
 
