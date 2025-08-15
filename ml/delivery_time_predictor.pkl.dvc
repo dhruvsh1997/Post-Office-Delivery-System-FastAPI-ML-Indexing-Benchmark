@@ -1,0 +1,5 @@
+outs:
+- md5: 6d46bb07cc3850ed3fa9e04297d6ccb6
+  size: 65522049
+  hash: md5
+  path: delivery_time_predictor.pkl
