@@ -19,6 +19,21 @@ uvicorn main:app --reload
 SELECT * FROM public.deliveries WHERE traffic_level='Low'
 ORDER BY id ASC 
 
+git rm -r --cached "ml/encoders.pkl"
+git commit -m "stop tracking encoders.pkl, move to DVC"
+
+git rm -r --cached "ml/delivery_time_predictor.pkl"
+git commit -m "stop tracking delivery_time_predictor.pkl, move to DVC"
+
+git rm -r --cached "dataset/Delivery_Time_new.csv"
+git commit -m "stop tracking Delivery_Time_new.csv, move to DVC"
+
+dvc init
+dvc add PostDeliveryIndex/ml/encoders.pkl
+dvc add PostDeliveryIndex/ml/delivery_time_predictor.pkl
+dvc add PostDeliveryIndex/dataset/Delivery_Time_new.csv
+
+
 
 
 ###### DVC Configuration
