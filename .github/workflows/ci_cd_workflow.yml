@@ -39,6 +39,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install "dvc[s3]"
 
+
       - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -46,9 +47,11 @@ jobs:
           username: ${{ secrets.EC2_USER }}      # ubuntu (likely)
           port: ${{ secrets.EC2_SSH_PORT }}      # 22
           key: ${{ secrets.EC2_SSH_KEY }}        # your AWS .pem contents
+          debug: true
           script: |
             set -e
-
+            whoami
+            uname -a
             # go to app dir
             mkdir -p ${{ secrets.APP_DIR }}
             cd ${{ secrets.APP_DIR }}
@@ -74,6 +77,9 @@ jobs:
             echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
             echo "[default]" > ~/.aws/config
             echo "region=ap-south-1" >> ~/.aws/config
+
+            echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+            chmod 600 private_key.pem
 
             # pull models/dataset via DVC from S3
             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
