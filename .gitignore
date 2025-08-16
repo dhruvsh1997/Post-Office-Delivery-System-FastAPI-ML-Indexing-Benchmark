@@ -24,8 +24,7 @@ Thumbs.db
 # DVC: Ignore cache and sensitive config files
 .dvc/cache/
 .dvc/tmp/
-.dvc/config
-.dvc/config.local
+
 
 # DVC: Ignore lock files and temporary files
 .dvc/lock
