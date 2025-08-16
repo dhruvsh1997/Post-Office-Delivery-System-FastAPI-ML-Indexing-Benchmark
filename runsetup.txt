@@ -19,6 +19,11 @@ uvicorn main:app --reload
 SELECT * FROM public.deliveries WHERE traffic_level='Low'
 ORDER BY id ASC 
 
+###### DVC Configuration
+
+# install dvc (locally)
+pip install "dvc[s3]"
+
 git rm -r --cached "ml/encoders.pkl"
 git commit -m "stop tracking encoders.pkl, move to DVC"
 
@@ -33,37 +38,24 @@ dvc add PostDeliveryIndex/ml/encoders.pkl
 dvc add PostDeliveryIndex/ml/delivery_time_predictor.pkl
 dvc add PostDeliveryIndex/dataset/Delivery_Time_new.csv
 
+git add ml/encoders.pkl.dvc \
+       ml/delivery_time_model.pkl.dvc \
+       dataset/Delivery_Time_new.csv.dvc \
+       .gitignore .dvc/config
+git commit -m "Track ML models and dataset with DVC"
 
+dvc remote add -d s3remote s3://post.delivery.app.storage/PostDeliveryFolder/
 
+dvc remote modify s3remote region ap-south-1
 
-###### DVC Configuration
-
-# install dvc (locally)
-pip install "dvc[s3]"
-
-# initialize dvc in your repo
-dvc init
-git add .dvc .dvcignore
-git commit -m "dvc init"
-
-# add an S3 remote (replace bucket/path)
-dvc remote add -d s3remote s3://your-bucket/path
-# store credentials either via env vars or AWS CLI on the machine
-
-# track dataset and model files with DVC (creates small .dvc pointer files)
-dvc add dataset/Delivery_Time_new.csv
-dvc add ml/delivery_time_predictor.pkl
-dvc add ml/encoders.pkl
-
-git add dataset/Delivery_Time_new.csv.dvc ml/delivery_time_predictor.pkl.dvc ml/encoders.pkl.dvc .dvc/config
-git commit -m "Add dataset + model files to DVC"
-
-# push to s3 (requires AWS credentials)
-dvc push -r s3remote
+dvc remote modify s3remote access_key_id AWS_ACCESS_KEY_ID
+dvc remote modify s3remote secret_access_key AWS_SECRET_ACCESS_KEY
 
 
 
 ##### EC2 setup steps
+
+move PostDeliveryAPP.pem C:\Users\<YourUser>\.ssh\
 
 # update & basic tools
 sudo apt update && sudo apt upgrade -y
