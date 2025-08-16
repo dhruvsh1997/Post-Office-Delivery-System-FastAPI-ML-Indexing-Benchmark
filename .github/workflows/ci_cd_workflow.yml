@@ -2,7 +2,7 @@ name: CI/CD — Deploy to EC2 (SQLite)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   test:
