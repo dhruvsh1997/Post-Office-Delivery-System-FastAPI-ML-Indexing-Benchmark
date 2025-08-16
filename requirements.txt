@@ -9,4 +9,4 @@ joblib
 pandas
 faker
 numpy
-"dvc[s3]"
+dvc[s3]
